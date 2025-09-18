@@ -42,6 +42,7 @@ DNS (Domain Name System).
 Streaming đa phương tiện, IPTV.
 
 🔧 2. Ngôn ngữ lập trình sử dụng: Java
+
 🚀 3. Công nghệ sử dụng
 Java: ngôn ngữ lập trình chính.
 
