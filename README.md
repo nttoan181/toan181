@@ -6,7 +6,7 @@
     <p>
         <img src="docs/aiotlab_logo.png" alt="AIoTLab Logo" width="170"/>
         <img src="docs/fitdnu_logo.png" alt="FITDNU Logo" width="180"/>
-        <img src="docs/dnu_logo.png" alt="DaiNam University Logo" width="200"/>
+        <img src="[docs/dnu_logo.png](https://github.com/FIT-DNU/Network-Programming/blob/main/docs/dnu_logo.png?raw=true)" alt="DaiNam University Logo" width="200"/>
     </p>
 </div>
 
