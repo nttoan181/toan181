@@ -4,7 +4,7 @@
     </a>
 </h2>
 <h2 align="center">
-   GỬI EMAIL MÔ PHỎNG SMTP QUA SOCKET
+   TRUYỀN FILE QUA UDP
 </h2>
 <div align="center">
     <p align="center">
