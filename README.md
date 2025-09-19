@@ -12,6 +12,12 @@
   <img src="docs/fitdnu_logo.png" alt="FITDNU Logo" width="180"/>
   <img src="docs/dnu_logo.png" alt="DaiNam University Logo" width="200"/>
 </div>
+<p align="center">
+  ![AIoTLab Logo](docs/aiotlab_logo.png)
+  ![FITDNU Logo](docs/fitdnu_logo.png)
+  ![DaiNam University Logo](docs/dnu_logo.png)
+</p>
+
 
 
 [![AIoTLab](https://img.shields.io/badge/AIoTLab-green?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
