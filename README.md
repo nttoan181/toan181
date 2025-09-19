@@ -20,223 +20,117 @@
 </div>
 
 
-## 📖 1. Giới thiệu
+📖 1. Giới thiệu
 
-Đề tài: Gửi email mô phỏng qua SMTP bằng Socket
+Đề tài: Truyền file qua giao thức UDP sử dụng Java Swing, có đăng nhập/đăng ký người dùng và lưu trữ thông tin bằng SQLite.
 
-Mục tiêu: Xây dựng hệ thống mô phỏng quá trình gửi email qua giao thức SMTP (Simple Mail Transfer Protocol).
+Mục tiêu:
 
-Cách hoạt động:
+Xây dựng ứng dụng Client–Server truyền file qua UDP.
 
-Người dùng nhập thông tin email (người gửi, người nhận, tiêu đề, nội dung, tệp đính kèm) qua giao diện Swing.
+Người dùng phải đăng nhập/đăng ký trước khi gửi hoặc tải file.
 
-Client gửi các lệnh SMTP qua TCP Socket đến Server.
+Server nhận file và lưu vào thư mục lưu trữ đồng thời ghi log vào database SQLite.
 
-Server xử lý yêu cầu, phản hồi theo chuẩn mã SMTP, sau đó lưu email thành file .txt trong thư mục mailbox/.
+Ứng dụng mô phỏng giúp sinh viên hiểu rõ:
 
-Ứng dụng mô phỏng này giúp sinh viên hiểu rõ hơn về cách một máy khách (email client) như Outlook, Gmail hoạt động khi giao tiếp với máy chủ SMTP, nhưng trong phạm vi an toàn và đơn giản hơn (lưu file thay vì gửi email thật).
+Cách sử dụng UDP trong Java.
 
+Quản lý dữ liệu người dùng và file bằng cơ sở dữ liệu.
 
+Kết hợp giao diện Swing + JDBC SQLite.
 
-## 📌 2. Công nghệ sử dụng
+📌 2. Công nghệ sử dụng
+2.1. Java
 
-- Trong quá trình xây dựng hệ thống mô phỏng gửi email qua giao thức SMTP bằng Socket, nhóm sử dụng các công nghệ chính sau:
+Ngôn ngữ hướng đối tượng, đa nền tảng.
 
-⸻
+Hỗ trợ mạnh về Socket, I/O, giao diện Swing.
 
-2.1. Ngôn ngữ lập trình Java
+2.2. UDP Socket
 
-Java là ngôn ngữ lập trình hướng đối tượng, đa nền tảng, chạy trên JVM (Java Virtual Machine) với phương châm "Write Once, Run Anywhere".
+DatagramSocket và DatagramPacket.
 
-Trong hệ thống này, Java được lựa chọn vì:
+Client chia nhỏ file thành nhiều gói tin, gửi cho Server.
 
-Hỗ trợ mạnh mẽ lập trình Socket và đa luồng (multithreading).
+Server ghép gói, lưu file đầy đủ.
 
-Thư viện I/O phong phú để đọc/ghi dữ liệu giữa client – server.
+2.3. SQLite + JDBC
 
-Có cộng đồng lớn, tài liệu hỗ trợ phong phú.
+CSDL nhẹ, nhúng trực tiếp vào ứng dụng.
 
-Dễ dàng xây dựng giao diện đồ họa Swing để nhập email và quản lý tương tác người dùng..
+Bảng users: quản lý tài khoản đăng nhập.
 
-⸻
+Bảng files: quản lý file gửi/nhận.
 
-2.2. Socket trong Java
+Truy cập qua JDBC (DBHelper.java, UserDAO.java).
 
-Socket là điểm cuối (endpoint) cho quá trình giao tiếp giữa Client – Server qua mạng.
+2.4. Mô hình Client – Server
 
-ServerSocket: tạo máy chủ, lắng nghe yêu cầu.
+Client: giao diện Swing → chọn file → gửi qua UDP.
 
-Socket: tạo kết nối từ client đến server.
+Server: nhận file → lưu → ghi log DB.
 
-InputStream / OutputStream: trao đổi dữ liệu qua kết nối.
-Trong ứng dụng này:
+Có chức năng đăng nhập/đăng ký người dùng.
 
-Server mở cổng 2525 và chờ Client kết nối.
+💻 3. Các thành phần chính
 
-Client gửi các lệnh SMTP như:
+UDPClient.java → giao diện Swing cho người dùng (chọn file, gửi file, xem log).
 
-HELO → chào server
+UDPServer.java → chạy trên cổng UDP, nhận và lưu file.
 
-MAIL FROM → khai báo địa chỉ gửi
+DBHelper.java → quản lý kết nối SQLite.
 
-RCPT TO → khai báo địa chỉ nhận
+UserDAO.java → xử lý đăng nhập, đăng ký.
 
-DATA → gửi nội dung email
+FileDAO.java (tuỳ chọn) → quản lý log file gửi/nhận.
 
-QUIT → thoát kết nối
+📌 Quy trình hoạt động:
 
-Server phản hồi bằng mã chuẩn SMTP:
+Người dùng đăng nhập.
 
-220 (Ready), 250 (OK), 354 (Start mail input), 221 (Bye).
+Client chọn file, gửi đến Server.
 
- Việc sử dụng TCP Socket đảm bảo dữ liệu được gửi tin cậy, đúng thứ tự, mô phỏng sát cách thức SMTP hoạt động trong thực tế.
+Server nhận gói tin, lưu file vào thư mục.
 
+Ghi log (username, filename, timestamp) vào SQLite.
 
-2.3. Mô hình Client – Server
+⚙️ 4. Các bước cài đặt
 
-Hệ thống được xây dựng theo kiến trúc Client – Server:
+Tạo Project
 
-Client: Giao diện người dùng (Swing), nhập thông tin email → gửi lệnh SMTP đến server.
+Eclipse / IntelliJ → New Java Project → UDPFileTransfer.
 
-Server: Nhận lệnh SMTP, xử lý, phản hồi → lưu email thành file .txt.
+Thêm mã nguồn
 
-📌 Ưu điểm:
+Copy các file:
+UDPClient.java, UDPServer.java, DBHelper.java, UserDAO.java vào src/.
 
-Giúp sinh viên dễ hình dung cách ứng dụng email thật (Gmail, Outlook) giao tiếp với SMTP server.
+Thêm SQLite JDBC Driver
 
-Dễ dàng mở rộng để bổ sung thêm tính năng: xác thực người dùng, hộp thư đến, gửi nhiều email cùng lúc…
+Tải sqlite-jdbc-x.x.x.jar.
 
-⸻
+Eclipse → Project → Build Path → Add External JARs → chọn file .jar.
 
-2.4. IDE: Eclipse / IntelliJ IDEA
+Tạo database
 
-Để phát triển ứng dụng, nhóm sử dụng IDE hỗ trợ Java:
+Chạy DBHelper.java → sẽ tự tạo file storage.db với bảng users, files.
 
-Eclipse: miễn phí, phổ biến.
+Chạy chương trình
 
-IntelliJ IDEA: hiện đại, hỗ trợ nhiều tiện ích như debug, gợi ý code.
+Chạy UDPServer.java trước.
 
-Ưu điểm khi dùng IDE:
+Chạy UDPClient.java → đăng nhập → chọn file → gửi đến server.
 
-Quản lý project và các file .java rõ ràng.
+📸 5. Hình ảnh minh họa
+<p align="center"> <img src="docs/udp_login.png" width="240" height="160" alt="Login GUI" /> </p> <p align="center"><i>Hình 1. Màn hình đăng nhập</i></p> <p align="center"> <img src="docs/udp_transfer.png" width="240" height="160" alt="File transfer GUI" /> </p> <p align="center"><i>Hình 2. Màn hình gửi file</i></p>
+📞 6. Liên hệ
 
-Debug và chạy chương trình thuận tiện.
+💌 Email: nvn60211@gmail.com
 
-Quan sát log SMTP Client – Server trực tiếp trong console
+☎️ SĐT: 0866659701
 
-⸻
-
- ## 💻 3. Các hình ảnh chức năng
-
-Trong phần này, hệ thống được minh họa bằng các hình ảnh chụp từ quá trình chạy chương trình. Các hình này giúp làm rõ cách thức giao tiếp giữa SMTP Client và SMTP Server, cũng như kết quả lưu trữ email trên server.
-
-1. Xây dựng hệ thống SMTP Client – Server (Ứng dụng gửi/nhận email)
-
-Mô tả:
-
-Xây dựng SMTP Server để lắng nghe và xử lý các yêu cầu gửi email.
-
-Xây dựng SMTP Client để gửi email theo đúng chuẩn giao thức SMTP.
-
-Email hỗ trợ tiêu đề, nội dung, người gửi, người nhận và file đính kèm.
-
-Server phản hồi lại client bằng mã trạng thái chuẩn SMTP (thông qua Response).
-
-Thành phần chính:
-
-SMTPServer.java: Xử lý kết nối và lưu trữ email.
-
-SMTPClient.java: Kết nối server, gửi lệnh SMTP (Command.java) và nhận phản hồi.
-
-<p align="center">
-  <img src="docs/Screenshot 2025-09-18 231500.png" width="240" height="148" alt="Mailbox file" />
-</p>
-<p align="center"><i>Hình ảnh 1 </i></p>
-
-2. Ứng dụng đăng nhập và quản lý người dùng (LoginApp)
-
-Mô tả:
-
-Phát triển ứng dụng đăng nhập bằng Java.
-
-Người dùng đăng nhập bằng username/password.
-
-Dữ liệu được lưu và kiểm tra qua cơ sở dữ liệu (thông qua DatabaseHelper.java).
-Có thể tích hợp với hệ thống email để gửi thông báo (ví dụ: đăng nhập thành công/không thành công).
-
-Thành phần chính:
-
-LoginApp.java: Giao diện đăng nhập, xử lý xác thực người dùng.
-
-DatabaseHelper.java: Quản lý kết nối và thao tác cơ sở dữ liệu.
-
-Kỹ năng đạt được:
-
-Làm việc với cơ sở dữ liệu trong Java (SQLite/MySQL).
-
-Thiết kế và triển khai chức năng xác thực, bảo mật.
-
-<p align="center">
-  <img src="docs/Screenshot 2025-09-18 233834.png" width="240" height="148" alt="Mailbox file" />
-</p>
-<p align="center"><i>Hình ảnh 2 </i></p>
-
-## ⚙️ 4. Các bước cài đặt
-
-1. Tạo Project mới
-
-Mở Eclipse → File → New → Java Project.
-
-Đặt tên project, ví dụ: EmailApp.
-
-Bấm Finish.
-
-2. Thêm các file mã nguồn
-
-Trong project vừa tạo, mở thư mục src.
-
-Copy tất cả các file .java bạn đã tải lên (LoginApp.java, MainApp.java, SMTPClient.java, SMTPServer.java, DatabaseHelper.java, EmailMessage.java, Attachment.java, Command.java, Response.java) vào thư mục src.
-
-Eclipse sẽ tự động biên dịch nếu không có lỗi.
-
-3. Thêm thư viện SQLite JDBC
-
-Vì dự án có file DatabaseHelper.java → chắc chắn dùng SQLite, bạn cần thêm thư viện JDBC driver:
-
-Tải sqlite-jdbc-<phiên_bản>.jar từ Maven Central 
-
-Trong Eclipse, click chuột phải vào project → Build Path → Configure Build Path.
-
-Chọn tab Libraries → Add External JARs….
-
-Thêm file sqlite-jdbc-xxx.jar.
-
-Bấm Apply and Close.
-
-4. Xác định class chạy chính
-
-Nếu chương trình mở màn hình đăng nhập trước → chạy LoginApp.java.
-
-Nếu chương trình quản lý chính ở MainApp.java → chạy file đó.
-(Thường thì MainApp là entry point, nhưng bạn có thể mở file .java và kiểm tra có public static void main(String[] args) trong đó để biết class nào là main).
-
-5. Chạy chương trình
-
-Trong Package Explorer, chọn file MainApp.java hoặc LoginApp.java.
-
-Nhấn chuột phải → Run As → Java Application.
-
-Ứng dụng sẽ chạy, và có thể tạo file database (.db) trong thư mục gốc project.
-
-6. Kiểm tra database (nếu cần)
-
-Sau khi chạy, bạn sẽ thấy file .db trong thư mục project.
-
-Có thể mở bằng DB Browser for SQLite để xem dữ liệu.
-
-## 📞 5. Liên hệ
-- 💌 Email: nvn60211@gmail.com  
-- ☎️ SĐT: 0866659701
+© 2025 AIoTLab, Faculty of Information Technology, DaiNam University. All rights reserved.
 
 
 © 2025 AIoTLab, Faculty of Information Technology, DaiNam University. All rights reserved.
