@@ -7,11 +7,12 @@
    TRUYỀN FILE QUA UDP
 </h2>
 <div align="center">
-    <p align="center">
-        <img src="docs/aiotlab_logo.png" alt="AIoTLab Logo" width="170"/>
-        <img src="docs/fitdnu_logo.png" alt="AIoTLab Logo" width="180"/>
-        <img src="docs/dnu_logo.png" alt="DaiNam University Logo" width="200"/>
-    </p>
+  <div align="center">
+  <img src="docs/aiotlab_logo.png" alt="AIoTLab Logo" width="170"/>
+  <img src="docs/fitdnu_logo.png" alt="FITDNU Logo" width="180"/>
+  <img src="docs/dnu_logo.png" alt="DaiNam University Logo" width="200"/>
+</div>
+
 
 [![AIoTLab](https://img.shields.io/badge/AIoTLab-green?style=for-the-badge)](https://www.facebook.com/DNUAIoTLab)
 [![Faculty of Information Technology](https://img.shields.io/badge/Faculty%20of%20Information%20T…he-badge)](https://dainam.edu.vn/vi/khoa-cong-nghe-thong-tin)
